@@ -2,17 +2,17 @@
 
 
 import time
-
+CoinA = "BTC"
+CoinB = "ETH"
 def initialize(state):
     state.signals = {}
-    state.cooler = {"BTC-USD":0, "ETH-USD":0}
-    state.buyer = {"BTC-USD":0, "ETH-USD":0}
-    state.tp_newposition =  {"BTC-USD":False, "ETH-USD":False}
-    state.tp_position =  {"BTC-USD":0, "ETH-USD":0}
+    state.cooler = {CoinA+"-USD":0, CoinB+"-USD":0}
+    state.buyer = {CoinA+"-USD":0, CoinB+"-USD":0}
+    state.tp_newposition =  {CoinA+"-USD":False, CoinB+"-USD":False}
+    state.tp_position =  {CoinA+"-USD":0, CoinB+"-USD":0}
     state.signal_parameters = [22, 14, 30, 14, 14]
     
-SYMBOLS = ["BTC-USD", "ETH-USD"]
-SYMBOLS2 = ["BTC-USD", "ETH-USD"]
+SYMBOLS = [CoinA+"-USD", CoinB+"-USD"]
 
 SIGNAL_BUY = 1
 SIGNAL_SELL = 2
@@ -161,13 +161,8 @@ def resolve_ema_signal(state, data):
 
 ################################################# INTERVALS 1TIK ############################################################
 
-@schedule(interval= "5m", symbol=SYMBOLS, window_size=150)
+@schedule(interval= "1h", symbol=SYMBOLS, window_size=150)
 def handler(state, dataMap):
-    for symbol, data in dataMap.items():
-        resolve_ema_signal(state, data)
-
-@schedule(interval= "5m", symbol=SYMBOLS2, window_size=150)
-def handler2(state, dataMap):
     for symbol, data in dataMap.items():
         resolve_ema_signal(state, data)
 
